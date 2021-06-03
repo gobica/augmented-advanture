@@ -17,7 +17,6 @@ AFRAME.registerComponent('peakfinder', {
         const scale = 300;
         var el = this.el;
 
-        // fetch(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=1500&key=AIzaSyCC2aDWxhRGLni1Tz5MlhdX9-6WwX5d3kM`)
              fetch('/example.json' ) 
              .then(
                  function (response) {
