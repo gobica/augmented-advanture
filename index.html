@@ -1,0 +1,28 @@
+<html>
+    <head>
+        <title>AR.js Basic Projected Camera Example</title>
+        <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+        <!-- Look-at component. We don't need this now, but we will later. -->
+        <script src="/aframe-look-at-component.min.js"></script>
+
+        <script src="/aframe-ar.js"></script>
+
+
+        <script type='text/javascript' src='peakfinder.js'></script>
+       <!-- <script src="component.js"></script>-->
+
+        <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    </head>
+    <body>
+    <!-- video Texture ti unici stvari, poglej kaj sploh je to-->
+    <a-scene
+    vr-mode-ui="enabled: false"
+    arjs='videoTexture: true; sourceType: webcam; debugUIEnabled: false;'
+    renderer='antialias: true; alpha: true'>
+            <a-camera gps-projected-camera rotation-reader></a-camera>
+            <!--<a-box id="GPScoord" gps-projected-entity-place='latitude: 0; longitude: 0' material='color: red' scale='20 20 20'></a-box> -->
+            <a-entity peakfinder></a-entity>
+        </a-scene>
+
+    </body>
+</html>
