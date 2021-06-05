@@ -17,7 +17,7 @@ AFRAME.registerComponent('peakfinder', {
         const scale = 300;
         var el = this.el;
 
-             fetch('/example.json' ) 
+             fetch(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=1500&key=AIzaSyCC2aDWxhRGLni1Tz5MlhdX9-6WwX5d3kM`) 
              .then(
                  function (response) {
 
@@ -28,7 +28,6 @@ AFRAME.registerComponent('peakfinder', {
                      }
                      // response from API 
                      response.json().then(function (data) {
-                     console.log(data.results)
                       //  datas = data.results.filter(result =>  result.name = ))
                       data.results.forEach(element => {
                         console.log(element.name)
@@ -40,14 +39,20 @@ AFRAME.registerComponent('peakfinder', {
                             y: scale,
                             z: scale
                         });
-                        console.log(element.geometry.location.lat)
-                        console.log(element.geometry.location.lng)
+                   
 
                         entity.setAttribute('gps-projected-entity-place', {
                             latitude: element.geometry.location.lat,
                             longitude: element.geometry.location.lng
                         });
+
                         el.appendChild(entity);
+                        el.addEventListener('click', function () {
+                            console.log("nekej se zgodi")
+                            el.setAttribute('color', data.color);
+                          });
+                          
+                    
                       });
                          
                      });

@@ -2,27 +2,79 @@
     <head>
         <title>AR.js Basic Projected Camera Example</title>
         <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+        <script src="https://rawgit.com/rdub80/aframe-gui/master/dist/aframe-gui.min.js"></script>
         <!-- Look-at component. We don't need this now, but we will later. -->
         <script src="/lib/aframe-look-at-component.min.js"></script>
+        <script src="https://supereggbert.github.io/aframe-htmlembed-component/dist/build.js"></script>
 
+        <!--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCC2aDWxhRGLni1Tz5MlhdX9-6WwX5d3kM&libraries=places"></script> -->
+        <!--script src="/jsonklic.js"></script> -->
         <script src="/lib/aframe-ar.js"></script>
 
 
         <script type='text/javascript' src='peakfinder.js'></script>
+        <style>
+            #clickme {
+            position: sticky;
+              bottom: 0;
+              left: 0;
+              width: 100%;
+              height: 5em;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              z-index: 100;
+              color: blueviolet;
+            }
+        
+          </style>
        <!-- <script src="component.js"></script>-->
 
         <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
     </head>
     <body>
+
     <!-- video Texture ti unici stvari, poglej kaj sploh je to-->
     <a-scene
     vr-mode-ui="enabled: false"
-    arjs='videoTexture: true; sourceType: webcam; debugUIEnabled: false;'
+    arjs=' videoTexture: true; sourceType: webcam; debugUIEnabled: false;'
     renderer='antialias: true; alpha: true'>
-            <a-camera gps-projected-camera rotation-reader></a-camera>
-            <!--<a-box id="GPScoord" gps-projected-entity-place='latitude: 0; longitude: 0' material='color: red' scale='20 20 20'></a-box> -->
+            <a-camera gps-projected-camera rotation-reader>
+                
+
+            </a-camera>
+             
+            <a-entity htmlembed 
+             gps-projected-entity-place='latitude: 46.251920; longitude: 15.194350'
+            scale='600 600 600'
+            look-at="[camera]">
+            <button  id="clickme" onclick="console.log('do something')">Click Me</button >
+
+        </a-entity> 
             <a-entity peakfinder></a-entity>
+             
         </a-scene>
+        <script>
+        
+            // On mouse-over, execute myFunction
+            setTimeout(function() { 
+                var element = document.getElementById("clickme");
+            var rect = element.getBoundingClientRect();
+        console.log(rect.top, rect.right, rect.bottom, rect.left);
+
+                
+             }, 5000);
+            function myFunction() {
+                alert("Hello! I am an alert box!!");
+
+            }
+            console.log(document.querySelector('#clickme'))
+ document.querySelector('#clickme').addEventListener('click',function(e){
+	alert('do something else');
+});
+            </script>
+
+
 
     </body>
 </html>

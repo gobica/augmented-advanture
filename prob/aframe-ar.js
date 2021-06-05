@@ -1674,12 +1674,9 @@ ARjs.Source.prototype._initSourceWebcam = function (onReady, onError) {
         };
           // CUSTOM CODE START
 			   var backCam2 = devices.filter(d=>{
-			//	console.log(d)
-                
+				console.log(d)
 				return d.label && d.label == "camera2 0, facing back";
 				})
-                console.log("backcam", backCam2);
-
 				if (backCam2.length) {
 				userMediaConstraints.video.deviceId = backCam2[0].deviceId
 				}
@@ -4646,57 +4643,18 @@ AFRAME.registerComponent('arjs-webcam-texture', {
     },
 
     play: function() {
-        var _video = this.video
-
-       // check API is available
-    if (navigator.mediaDevices === undefined
-        || navigator.mediaDevices.enumerateDevices === undefined
-        || navigator.mediaDevices.getUserMedia === undefined) {
-        if (navigator.mediaDevices === undefined) var fctName = 'navigator.mediaDevices'
-        else if (navigator.mediaDevices.enumerateDevices === undefined) var fctName = 'navigator.mediaDevices.enumerateDevices'
-        else if (navigator.mediaDevices.getUserMedia === undefined) var fctName = 'navigator.mediaDevices.getUserMedia'
-        else console.assert(false)
-        onError({
-            name: '',
-            message: 'WebRTC issue-! ' + fctName + ' not present in your browser'
-        });
-        return null
-    }
-
-    // get available devices
-    navigator.mediaDevices.enumerateDevices().then(function (devices) {
-        var userMediaConstraints = {
-            audio: false,
-            video: {
-                facingMode: 'environment'
-            }
-        };
-          // CUSTOM CODE START
-			   var backCam2 = devices.filter(d=>{
-				//console.log(d)
-                
-				return d.label && d.label == "camera2 0, facing back";
-				})
-                //console.log("backcam", backCam2);
-
-				if (backCam2.length) {
-				userMediaConstraints.video.deviceId = backCam2[0].deviceId
-				}
-				
-				// CUSTOM CODE END`
-        // get a device which satisfy the constraints
-        navigator.mediaDevices.getUserMedia(userMediaConstraints).then( stream=> {
-
-            _video.srcObject = stream;    
-            _video.play();
-        }).catch(function (error) {
-            console.log(error)
-
-        });
-    }).catch(function (error) {
-        console.log(error)
-    });
-
+        if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+            const constraints = { video: {
+                facingMode: 'environment' }
+            };
+            navigator.mediaDevices.getUserMedia(constraints).then( stream=> {
+                this.video.srcObject = stream;    
+                this.video.play();
+            })
+            .catch(e => { alert(`Webcam error: ${e}`); });
+        } else {
+            alert('sorry - media devices API not supported');
+        }
     },
 
     tick: function() {
