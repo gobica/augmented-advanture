@@ -47,8 +47,8 @@ AFRAME.registerComponent('finder', {
                         console.log(elementType, name);
 
                         const entity = document.createElement('a-image');
-                        var imageSrcDef = 'images/' + "landmark" + '.png'
-                        var imageSrc = 'images/' + elementType + '.png';
+                        var imageSrcDef = '/IP-location-based-ar/images/' + "landmark" + '.png'
+                        var imageSrc = '/IP-location-based-ar/images/' + elementType + '.png';
                         //var imageSrc = icon;
                         //  entity.setAttribute('id', name);
                         entity.classList.add("clickable");
