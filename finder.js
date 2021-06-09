@@ -15,7 +15,7 @@ AFRAME.registerComponent('finder', {
     },
 
     _loadLocations: function (longitude, latitude) {
-        const scale = 50;
+        const scale = 10;
         var el = this.el;
         var locationsString;
         var locations = new Array();
