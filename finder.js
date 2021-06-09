@@ -57,8 +57,7 @@ AFRAME.registerComponent('finder', {
                         entity.setAttribute('src', imageSrc);
                         }
                         catch (err) {
-                            entity.setAttribute('src', imageSrcDef);
-
+                        entity.setAttribute('src', imageSrcDef);
                         } 
                         //entity.setAttribute('htmlembed', '');
                         entity.setAttribute('look-at', '[gps-projected-camera]');
