@@ -23,7 +23,7 @@ AFRAME.registerComponent('finder', {
         var scene = document.querySelector('a-scene');
 
         console.log(`https://cors.bridged.cc/https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&type=tourist_attraction&radius=3000&key=AIzaSyCC2aDWxhRGLni1Tz5MlhdX9-6WwX5d3kM`);
-        fetch(`https://cors.bridged.cc/https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&type=tourist_attraction&radius=3000&key=AIzaSyCC2aDWxhRGLni1Tz5MlhdX9-6WwX5d3kM`)
+        fetch(`https://cors.bridged.cc/https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&type=tourist_attraction&radius=1000&key=AIzaSyCC2aDWxhRGLni1Tz5MlhdX9-6WwX5d3kM`)
             .then(function (response) {
 
                 if (response.status !== 200) {
