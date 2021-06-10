@@ -1,9 +1,12 @@
 //const { connect } = require("http2");
+distances = 
 
 AFRAME.registerComponent('finder', {
     init: function () {
         this.data = [];
         this.loaded = false;
+        this.heights = [-100, 0,  100, 200, 300, 400, 500, 600, 700, 800]; 
+        this.stevec = 0; 
         window.addEventListener('gps-camera-update-position', e => {
             if (this.loaded === false) {
                 this._loadLocations(e.detail.position.longitude, e.detail.position.latitude);
@@ -23,7 +26,7 @@ AFRAME.registerComponent('finder', {
         var scene = document.querySelector('a-scene');
 
         console.log(`https://cors.bridged.cc/https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&type=tourist_attraction&radius=3000&key=AIzaSyCC2aDWxhRGLni1Tz5MlhdX9-6WwX5d3kM`);
-        fetch(`https://cors.bridged.cc/https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&type=tourist_attraction&radius=1000&key=AIzaSyCC2aDWxhRGLni1Tz5MlhdX9-6WwX5d3kM`)
+        fetch(`https://cors.bridged.cc/https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&type=tourist_attraction&rankby=distance&radius=2000&key=AIzaSyCC2aDWxhRGLni1Tz5MlhdX9-6WwX5d3kM`)
             .then(function (response) {
 
                 if (response.status !== 200) {
@@ -101,9 +104,10 @@ AFRAME.registerComponent('finder', {
                       normalized_distance = distance / 1.5
                       entity.setAttribute('position', {
                           x: 0,
-                          y: normalized_distance * 300,
+                          y: this.heights[this.stevec],
                           z: 0
                       });
+                      this.stevec ++;
                       console.log(distance);
                       entity.setAttribute('gps-projected-entity-place', {
                           latitude: lat,
