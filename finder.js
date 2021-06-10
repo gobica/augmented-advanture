@@ -5,8 +5,7 @@ AFRAME.registerComponent('finder', {
     init: function () {
         this.data = [];
         this.loaded = false;
-        this.heights = [-100, 0,  100, 200, 300, 400, 500, 600, 700, 800]; 
-        this.stevec = 0; 
+       
         window.addEventListener('gps-camera-update-position', e => {
             if (this.loaded === false) {
                 this._loadLocations(e.detail.position.longitude, e.detail.position.latitude);
@@ -18,13 +17,14 @@ AFRAME.registerComponent('finder', {
     },
 
     _loadLocations: function (longitude, latitude) {
-        const scale = 200;
+        const scale = 100;
         var el = this.el;
         var locationsString;
         var locations = new Array();
         var len = 0;
         var scene = document.querySelector('a-scene');
-
+        var heights = [-100, -60, -20, 20, 60 ,100, 140, 200, 240, 280]; 
+        var stevec = 0; 
         console.log(`https://cors.bridged.cc/https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&type=tourist_attraction&rankby=distance&radius=2000&key=AIzaSyCC2aDWxhRGLni1Tz5MlhdX9-6WwX5d3kM`);
         fetch(`https://cors.bridged.cc/https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&type=tourist_attraction&rankby=distance&key=AIzaSyCC2aDWxhRGLni1Tz5MlhdX9-6WwX5d3kM`)
             .then(function (response) {
@@ -41,13 +41,16 @@ AFRAME.registerComponent('finder', {
                     //  datas = data.results.filter(result =>  result.name = ))
                     this.data = data;
                     console.log(data);
-
+                    console.log(stevec);
+                    console.log(heights);
                     data.results.forEach(element => {
+                        if (stevec <= 10) {
                         var name = element.name;
                         var elementType = element.types[0];
                         var icon = element.icon;
 
                         console.log(elementType, name);
+                        
 
                         const entity = document.createElement('a-image');
                         var imageSrcDef = '/IP-location-based-ar/images/' + "landmark" + '.png'
@@ -55,7 +58,19 @@ AFRAME.registerComponent('finder', {
                         //var imageSrc = icon;
                         //  entity.setAttribute('id', name);
                         entity.classList.add("clickable");
+                        const entity_text = document.createElement('a-text');
+                        entity_text.setAttribute("value", name);
+                        //entity_text.setAttribute("font", "font/custom-msdf.json");
 
+                        entity_text.setAttribute("align", "center");
+
+                        entity_text.setAttribute('position', {
+                            x: 0,
+                            y: -0.8,
+                            z: 0
+                        });
+                        entity.appendChild(entity_text);
+                        
                         try {
                         entity.setAttribute('src', imageSrc);
                         }
@@ -104,10 +119,10 @@ AFRAME.registerComponent('finder', {
                       normalized_distance = distance / 1.5
                       entity.setAttribute('position', {
                           x: 0,
-                          y: this.heights[this.stevec],
+                          y: heights[stevec],
                           z: 0
                       });
-                      this.stevec ++;
+                      stevec ++;
                       console.log(distance);
                       entity.setAttribute('gps-projected-entity-place', {
                           latitude: lat,
@@ -139,8 +154,8 @@ AFRAME.registerComponent('finder', {
                        
 
                         el.appendChild(entity);
-
-
+    
+                    }
                     });
 
                     //parse locations
