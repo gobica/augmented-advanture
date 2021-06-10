@@ -17,7 +17,7 @@ AFRAME.registerComponent('finder', {
     },
 
     _loadLocations: function (longitude, latitude) {
-        const scale = 100;
+        var scale = 100;
         var el = this.el;
         var locationsString;
         var locations = new Array();
@@ -53,8 +53,8 @@ AFRAME.registerComponent('finder', {
                         
 
                         const entity = document.createElement('a-image');
-                        var imageSrcDef = '/IP-location-based-ar/images/' + "landmark" + '.png'
-                        var imageSrc = '/IP-location-based-ar/images/' + elementType + '.png';
+                        var imageSrcDef = '/IP-location-based-ar//images/' + "landmark" + '.png'
+                        var imageSrc = '/IP-location-based-ar//images/' + elementType + '.png';
                         //var imageSrc = icon;
                         //  entity.setAttribute('id', name);
                         entity.classList.add("clickable");
@@ -80,12 +80,7 @@ AFRAME.registerComponent('finder', {
                         //entity.setAttribute('htmlembed', '');
                         entity.setAttribute('look-at', '[gps-projected-camera]');
                         entity.setAttribute('value', element.name);
-                        entity.setAttribute('scale', {
-                            x: scale,
-                            y: scale,
-                            z: scale
-                        });
-
+                  
                         // Get the modal
                         var modal = document.getElementById("myModal");
                         // Get the <span> element that closes the modal
@@ -104,8 +99,6 @@ AFRAME.registerComponent('finder', {
                         var rating = element.rating;
                         var openingHours = "";
                         if (typeof(element.opening_hours) !==  'undefined') var openingHours_boolean = element.opening_hours.open_now;
-
-
                         if (openingHours_boolean == true) openingHours = "Odprto"
                         if (openingHours_boolean == false)  openingHours = "Zaprto"
 
@@ -117,6 +110,16 @@ AFRAME.registerComponent('finder', {
 
                       var distance = getDistanceFromLatLonInKm(latitude, longitude, lat, lng);
                       normalized_distance = distance / 1.5
+                      if (distance > 0.01) 
+                        scale = distance * 200;
+                        else scale = 1;
+                      entity.setAttribute('scale', {
+                        x: scale,
+                        y: scale,
+                        z: scale
+                    });
+                    if (distance > 0.02)  height = heights[stevec];
+                    else height = 1.6;
                       entity.setAttribute('position', {
                           x: 0,
                           y: heights[stevec],
