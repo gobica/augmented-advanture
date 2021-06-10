@@ -112,17 +112,17 @@ AFRAME.registerComponent('finder', {
                       normalized_distance = distance / 1.5
                       if (distance > 0.01) 
                         scale = distance * 200;
-                        else scale = 1;
+                        else scale = 10;
                       entity.setAttribute('scale', {
                         x: scale,
                         y: scale,
                         z: scale
                     });
                     if (distance > 0.02)  height = heights[stevec];
-                    else height = 1.6;
+                    else height = 2;
                       entity.setAttribute('position', {
                           x: 0,
-                          y: heights[stevec],
+                          y: height,
                           z: 0
                       });
                       stevec ++;
