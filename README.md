@@ -8,6 +8,7 @@ Tomorrow we will travel with the help of augmented reality applications.
 
 # Live demo
 To use this app, all you have to do is read the QR code, point the phone in any direction and the information will be available immediately.
+
 <img src="https://github.com/gobica/agumented-advanture/blob/master/images/qr-code.png" alt="live demo" width="300" >
 
 
