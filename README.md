@@ -1,5 +1,5 @@
 # Inroduction
-We used to travel with the help of printed maps and difficult travel guides.  Today we travel with the help of Google Map, Tripadvisor and other travel apps. 
+We used to travel with the help of printed maps and travel guides.  Today we travel with the help of Google Map, Tripadvisor and other travel apps. 
 Tomorrow we will travel with the help of augmented reality applications. 
 
 
