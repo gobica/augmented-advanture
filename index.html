@@ -1,69 +1,41 @@
 <html>
 
 <head>
-    <title>AR.js Basic Projected Camera Example</title>
+    <title>Augmented Advanture</title>
     <base href="/IP-location-based-ar">
     <meta charset="UTF-8">
-
     <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
     <script src="https://rawgit.com/rdub80/aframe-gui/master/dist/aframe-gui.min.js"></script>
-    <!-- Look-at component. We don't need this now, but we will later. -->
     <script src="/IP-location-based-ar/lib/aframe-look-at-component.min.js"></script>
     <script src="https://supereggbert.github.io/aframe-htmlembed-component/dist/build.js"></script>
     <script src="https://unpkg.com/aframe-event-set-component/dist/aframe-event-set-component.min.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCC2aDWxhRGLni1Tz5MlhdX9-6WwX5d3kM&libraries=places"></script>
-    <!--script src="/jsonklic.js"></script> -->
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCC2aDWxhRGLni1Tz5MlhdX9-6WwX5d3kM&libraries=places"></script>
     <script src="/IP-location-based-ar/lib/aframe-ar.js"></script>
     <script type='text/javascript' src='/IP-location-based-ar/finder.js'></script>
-    <link rel="stylesheet" href="/IP-location-based-ar//style.css">
-    <!-- <script src="component.js"></script>-->
+    <link rel="stylesheet" href="/IP-location-based-ar/style.css">
     <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 </head>
 
 <body>
-    <!-- Trigger/Open The Modal -->
-    <!-- The Modal -->
     <div id="myModal" class="modal">
-    <!-- Modal content -->
-    <div class="modal-content">
-        <span class="close">&times;</span>
-        <p id="name"></p>
-        <img id="image" src=""></img>
-        <p id="rating"></p>
-        <p id="opening_hours"></p>
-        <p id="distance"></p>
-
-
-
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p id="name"></p>
+            <img id="image" src=""></img>
+            <p id="rating"></p>
+            <p id="opening_hours"></p>
+            <p id="distance"></p>
+        </div>
     </div>
 
-    </div>
-    <!-- video Texture ti unici stvari, poglej kaj sploh je to-->
     <a-scene vr-mode-ui="enabled: false" arjs=' videoTexture: true; sourceType: webcam; debugUIEnabled: false;'
         renderer='antialias: true; alpha: true'>
         <a-camera gps-projected-camera rotation-reader>
         </a-camera>
 
-
-        <!--  <a-entity htmlembed 
-             gps-projected-entity-place='latitude: 46.251920; longitude: 15.194350'
-            scale='600 600 600'
-            look-at="[camera]">
-            <button  id="clickme" onclick="console.log('do something')">Click Me</button >
-                <a href="#home" class="button">haloooooooo</a>ape
-
-        </a-entity> 
-        -->
-
-
         <a-entity emitevents="true" raycaster="objects: .clickable; far: 20000" cursor="rayOrigin: mouse" finder>
         </a-entity>
-
     </a-scene>
-
-
-
-
 </body>
-
 </html>

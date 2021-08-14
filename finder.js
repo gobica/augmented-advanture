@@ -1,17 +1,12 @@
-//const { connect } = require("http2");
-distances = 
-
 AFRAME.registerComponent('finder', {
     init: function () {
         this.data = [];
         this.loaded = false;
-       
+
         window.addEventListener('gps-camera-update-position', e => {
             if (this.loaded === false) {
                 this._loadLocations(e.detail.position.longitude, e.detail.position.latitude);
                 this.loaded = true;
-                console.log("zakaj ne delas, a? zakva", this.el)
-
             }
         });
     },
@@ -19,156 +14,123 @@ AFRAME.registerComponent('finder', {
     _loadLocations: function (longitude, latitude) {
         var scale = 100;
         var el = this.el;
-        var locationsString;
-        var locations = new Array();
-        var len = 0;
-        var scene = document.querySelector('a-scene');
-        var heights = [-100, -60, -20, 20, 60 ,100, 140, 200, 240, 280]; 
-        var stevec = 0; 
+        var heights = [-100, -60, -20, 20, 60, 100, 140, 200, 240, 280];
+        var stevec = 0;
         console.log(`https://cors.bridged.cc/https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&type=tourist_attraction&rankby=distance&radius=2000&key=AIzaSyCC2aDWxhRGLni1Tz5MlhdX9-6WwX5d3kM`);
         fetch(`https://cors.bridged.cc/https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&type=tourist_attraction&rankby=distance&key=AIzaSyCC2aDWxhRGLni1Tz5MlhdX9-6WwX5d3kM`)
             .then(function (response) {
-
                 if (response.status !== 200) {
                     console.log('Looks like there was a problem. Status Code: ' +
                         response.status);
                     return;
                 }
-                // response from API 
-
                 raycaster = "objects: [data-raycastable]";
                 response.json().then(function (data) {
-                    //  datas = data.results.filter(result =>  result.name = ))
                     this.data = data;
                     console.log(data);
                     console.log(stevec);
                     console.log(heights);
                     data.results.forEach(element => {
                         if (stevec <= 10) {
-                        var name = element.name;
-                        var elementType = element.types[0];
-                        var icon = element.icon;
+                            var name = element.name;
+                            var elementType = element.types[0];
+                            console.log(elementType, name);
+                            const entity = document.createElement('a-image');
 
-                        console.log(elementType, name);
-                        
+                            var imageSrcDef = '/IP-location-based-ar//images/' + "landmark" + '.png'
+                            var imageSrc = '/IP-location-based-ar//images/' + elementType + '.png';
 
-                        const entity = document.createElement('a-image');
-                        var imageSrcDef = '/IP-location-based-ar//images/' + "landmark" + '.png'
-                        var imageSrc = '/IP-location-based-ar//images/' + elementType + '.png';
-                        //var imageSrc = icon;
-                        //  entity.setAttribute('id', name);
-                        entity.classList.add("clickable");
-                        const entity_text = document.createElement('a-text');
-                        entity_text.setAttribute("value", name);
-                        //entity_text.setAttribute("font", "font/custom-msdf.json");
+                            entity.classList.add("clickable");
+                            const entity_text = document.createElement('a-text');
+                            entity_text.setAttribute("value", name);
 
-                        entity_text.setAttribute("align", "center");
+                            entity_text.setAttribute("align", "center");
+                            entity_text.setAttribute('position', {
+                                x: 0,
+                                y: -0.8,
+                                z: 0
+                            });
+                            entity.appendChild(entity_text);
 
-                        entity_text.setAttribute('position', {
-                            x: 0,
-                            y: -0.8,
-                            z: 0
-                        });
-                        entity.appendChild(entity_text);
-                        
-                        try {
-                        entity.setAttribute('src', imageSrc);
-                        }
-                        catch (err) {
-                        entity.setAttribute('src', imageSrcDef);
-                        } 
-                        //entity.setAttribute('htmlembed', '');
-                        entity.setAttribute('look-at', '[gps-projected-camera]');
-                        entity.setAttribute('value', element.name);
-                  
-                        // Get the modal
-                        var modal = document.getElementById("myModal");
-                        // Get the <span> element that closes the modal
-                        var span = document.getElementsByClassName("close")[0];
-    
-                        // When the user clicks on <span> (x), close the modal
-                        span.onclick = function () {
-                            modal.style.display = "none";
-                        }
-                        // When the user clicks anywhere outside of the modal, close it
-                        window.onclick = function (event) {
-                            if (event.target == modal) {
+                            try {
+                                entity.setAttribute('src', imageSrc);
+                            }
+                            catch (err) {
+                                entity.setAttribute('src', imageSrcDef);
+                            }
+                            entity.setAttribute('look-at', '[gps-projected-camera]');
+                            entity.setAttribute('value', element.name);
+
+                            var modal = document.getElementById("myModal");
+                            var span = document.getElementsByClassName("close")[0];
+
+                            span.onclick = function () {
                                 modal.style.display = "none";
                             }
+                            window.onclick = function (event) {
+                                if (event.target == modal) {
+                                    modal.style.display = "none";
+                                }
+                            }
+                            var rating = element.rating;
+                            var openingHours = "";
+                            if (typeof (element.opening_hours) !== 'undefined') var openingHours_boolean = element.opening_hours.open_now;
+                            if (openingHours_boolean == true) openingHours = "Odprto"
+                            if (openingHours_boolean == false) openingHours = "Zaprto"
+
+                            entity.setAttribute('color', '#4CC3D9');
+                            //  entity.setAttribute('event-set__enter', '_event: click; color: #8FF7FF');
+                            //  entity.setAttribute('event-set__leave', '_event: click; color: #000000');    
+                            lat = element.geometry.location.lat;
+                            lng = element.geometry.location.lng;
+
+                            var distance = getDistanceFromLatLonInKm(latitude, longitude, lat, lng);
+                            normalized_distance = distance / 1.5
+                            if (distance > 0.01)
+                                scale = distance * 200;
+                            else scale = 10;
+                            entity.setAttribute('scale', {
+                                x: scale,
+                                y: scale,
+                                z: scale
+                            });
+                            if (distance > 0.1) height = heights[stevec];
+                            else height = 0;
+                            entity.setAttribute('position', {
+                                x: 0,
+                                y: height,
+                                z: 0
+                            });
+                            stevec++;
+                            console.log(distance);
+                            entity.setAttribute('gps-projected-entity-place', {
+                                latitude: lat,
+                                longitude: lng
+                            });
+
+                            var name = element.name;
+                            var photoreference = element.photos[0].photo_reference;
+                            var image_url = `https://maps.googleapis.com/maps/api/place/photo?photoreference=${photoreference}&sensor=false&maxheight=1000&maxwidth=300&key=AIzaSyCC2aDWxhRGLni1Tz5MlhdX9-6WwX5d3kM`
+                            console.log("imageurl", image_url);
+
+                            entity.addEventListener('click', function () {
+                         
+                                modal.style.display = "block";
+                                document.getElementById("name").innerHTML = name;
+                                document.getElementById("image").src = image_url;
+                                document.getElementById("rating").innerHTML = "ocena obiskovalcev: " + rating;
+                                document.getElementById("distance").innerHTML = "zračna razdalja: " + distance.toFixed(2);
+
+                                if (openingHours !== "")
+                                    document.getElementById("opening_hours").innerHTML = openingHours;
+
+                            });
+
+                            el.appendChild(entity);
+
                         }
-                        var rating = element.rating;
-                        var openingHours = "";
-                        if (typeof(element.opening_hours) !==  'undefined') var openingHours_boolean = element.opening_hours.open_now;
-                        if (openingHours_boolean == true) openingHours = "Odprto"
-                        if (openingHours_boolean == false)  openingHours = "Zaprto"
-
-                      entity.setAttribute('color', '#4CC3D9');
-                      //  entity.setAttribute('event-set__enter', '_event: click; color: #8FF7FF');
-                      //  entity.setAttribute('event-set__leave', '_event: click; color: #000000');    
-                      lat = element.geometry.location.lat;
-                      lng = element.geometry.location.lng;
-
-                      var distance = getDistanceFromLatLonInKm(latitude, longitude, lat, lng);
-                      normalized_distance = distance / 1.5
-                      if (distance > 0.01) 
-                        scale = distance * 200;
-                        else scale = 10;
-                      entity.setAttribute('scale', {
-                        x: scale,
-                        y: scale,
-                        z: scale
-                    });
-                    if (distance > 0.1)  height = heights[stevec];
-                    else height = 0;
-                      entity.setAttribute('position', {
-                          x: 0,
-                          y: height,
-                          z: 0
-                      });
-                      stevec ++;
-                      console.log(distance);
-                      entity.setAttribute('gps-projected-entity-place', {
-                          latitude: lat,
-                          longitude: lng
-                      });
-
-                        var name = element.name;
-                        var photoreference = element.photos[0].photo_reference;
-                        var image_url = `https://maps.googleapis.com/maps/api/place/photo?photoreference=${photoreference}&sensor=false&maxheight=1000&maxwidth=300&key=AIzaSyCC2aDWxhRGLni1Tz5MlhdX9-6WwX5d3kM`
-                        console.log("imageurl", image_url);
-
-                        entity.addEventListener('click', function () {
-                            // zdej pa se more nekej nardit 
-                            // el.setAttribute('color', data.color);
-                            //alert("Hello! I am an" + name);
-                            modal.style.display = "block";
-                            document.getElementById("name").innerHTML = name;
-                            document.getElementById("image").src = image_url;
-                            document.getElementById("rating").innerHTML = "ocena obiskovalcev: " + rating;
-                            document.getElementById("distance").innerHTML = "zračna razdalja: " + distance.toFixed(2);
-
-                            if (openingHours !== "")
-                            document.getElementById("opening_hours").innerHTML = openingHours;
-
-
-                        });
-
-
-                       
-
-                        el.appendChild(entity);
-    
-                    }
                     });
 
-                    //parse locations
-                    //  var parsed_locations = parse_location(locations);
-                    // locationsString = parsed_locations;
-                    //   return fetch(`https://cors.bridged.cc/https://maps.googleapis.com/maps/api/elevation/json?locations=${latitude},${longitude}&key=AIzaSyCC2aDWxhRGLni1Tz5MlhdX9-6WwX5d3kM`)
-                    //  })   .then(function (response) {
-                    //    response.json().then(function (data) {
-                    //   console.log(data)
-                    //     })
                 })
             })
             .catch(function (err) {
