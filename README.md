@@ -2,7 +2,7 @@
 We used to travel with the help of printed maps and difficult travel guides.  Today we travel with the help of Google Map, Tripadvisor and other travel apps. 
 Tomorrow we will travel with the help of augmented reality applications. 
 
-![application](https://github.com/gobica/agumented-advanture/blob/master/images/augmented%20reality.jpg | width=300)
+![application](https://github.com/gobica/agumented-advanture/blob/master/images/augmented%20reality.jpg =250x250)
 
 # Live demo
 To use this app, all you have to do is read the QR code, point the phone in any direction and the information will be available immediately.
