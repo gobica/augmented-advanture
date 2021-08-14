@@ -1,4 +1,6 @@
-API_KEY = config.APIKEY;
+
+import { API_KEY } from './config.js';
+
 AFRAME.registerComponent('finder', {
     init: function () {
         this.data = [];

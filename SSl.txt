@@ -1,2 +1,0 @@
-node C:\Users\aljaz\Desktop\Faks\IP\node_modules\http-server\bin\http-server  -S -C cert.pem
-node /usr/lib/node_modules/http-server/bin/http-server -S -C cert.pem
