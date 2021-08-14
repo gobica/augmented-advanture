@@ -1,4 +1,4 @@
-const APIKEY = 'AIzaSyCC2aDWxhRGLni1Tz5MlhdX9-6WwX5d3kM';
+const API_KEY = 'AIzaSyCC2aDWxhRGLni1Tz5MlhdX9-6WwX5d3kM';
 AFRAME.registerComponent('finder', {
     init: function () {
         this.data = [];
