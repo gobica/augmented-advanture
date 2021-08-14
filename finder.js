@@ -1,3 +1,4 @@
+API_KEY = config.APIKEY;
 AFRAME.registerComponent('finder', {
     init: function () {
         this.data = [];
@@ -16,8 +17,8 @@ AFRAME.registerComponent('finder', {
         var el = this.el;
         var heights = [-100, -60, -20, 20, 60, 100, 140, 200, 240, 280];
         var stevec = 0;
-        console.log(`https://cors.bridged.cc/https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&type=tourist_attraction&rankby=distance&radius=2000&key=AIzaSyCC2aDWxhRGLni1Tz5MlhdX9-6WwX5d3kM`);
-        fetch(`https://cors.bridged.cc/https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&type=tourist_attraction&rankby=distance&key=AIzaSyCC2aDWxhRGLni1Tz5MlhdX9-6WwX5d3kM`)
+        console.log(`https://cors.bridged.cc/https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&type=tourist_attraction&rankby=distance&radius=2000&key=${API_KEY}`);
+        fetch(`https://cors.bridged.cc/https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&type=tourist_attraction&rankby=distance&key=${API_KEY}`)
             .then(function (response) {
                 if (response.status !== 200) {
                     console.log('Looks like there was a problem. Status Code: ' +
@@ -110,7 +111,7 @@ AFRAME.registerComponent('finder', {
 
                             var name = element.name;
                             var photoreference = element.photos[0].photo_reference;
-                            var image_url = `https://maps.googleapis.com/maps/api/place/photo?photoreference=${photoreference}&sensor=false&maxheight=1000&maxwidth=300&key=AIzaSyCC2aDWxhRGLni1Tz5MlhdX9-6WwX5d3kM`
+                            var image_url = `https://maps.googleapis.com/maps/api/place/photo?photoreference=${photoreference}&sensor=false&maxheight=1000&maxwidth=300&key=${API_KEY}`
                             console.log("imageurl", image_url);
 
                             entity.addEventListener('click', function () {
