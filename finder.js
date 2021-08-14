@@ -1,5 +1,4 @@
-
-import { API_KEY } from './config.js';
+import { API_KEY } from '/config.js';
 
 AFRAME.registerComponent('finder', {
     init: function () {
